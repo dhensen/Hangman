@@ -59,20 +59,20 @@ class Hangman extends EventSourcedAggregateRoot
             $this->tries_left--;
             
             if ($this->tries_left == 0) {
-                $this->apply(new UpdateStatusCommand($this->gameId, self::STATUS_FAIL));
+                $this->status = self::STATUS_FAIL;
             }
         } elseif ($unmaskedCount > 0 && $this->word->isCompletelyUnmasked()) {
-            $this->apply(new UpdateStatusCommand($this->gameId, self::STATUS_SUCCESS));
+            $this->status = self::STATUS_SUCCESS;
         } // but guessing a correct letter doesn't decrement the amount of tries left
-    }
-    
-    protected function applyUpdatedStatusEvent(UpdatedStatusEvent $event)
-    {
-        $this->status = $event->status;
     }
     
     public function getStatus()
     {
         return $this->status;
+    }
+    
+    public function getTriesLeft()
+    {
+        return $this->tries_left;
     }
 }

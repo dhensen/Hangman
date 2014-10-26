@@ -12,10 +12,7 @@ use Dino\HangmanBundle\Model\Word;
 use Dino\HangmanBundle\Model\StartedEvent;
 use Dino\HangmanBundle\Model\GuessCommand;
 use Dino\HangmanBundle\Model\GuessedEvent;
-use Dino\HangmanBundle\Model\UpdatedStatusEvent;
 use Dino\HangmanBundle\Model\Hangman;
-use Dino\HangmanBundle\Model\UpdateStatusCommand;
-use Dino\HangmanBundle\Model\DecrementTriesLeftCommand;
 
 class HangmanCommandHandlerTest extends CommandHandlerScenarioTestCase
 {
@@ -39,6 +36,8 @@ class HangmanCommandHandlerTest extends CommandHandlerScenarioTestCase
             ->given([])
             ->when(new StartCommand($id, $word))
             ->then([new StartedEvent($id, $word)]);
+        
+        $this->assertEquals(Hangman::STATUS_BUSY, $this->repository->load($id)->getStatus());
     }
     
     public function testGuessChar()
@@ -68,10 +67,9 @@ class HangmanCommandHandlerTest extends CommandHandlerScenarioTestCase
                 new GuessedEvent($id, 'e'),
             ])
             ->when(new GuessCommand($id, 's'))
-            ->then([
-                new UpdateStatusCommand($id, Hangman::STATUS_SUCCESS),
-                new GuessedEvent($id, 's')
-            ]);
+            ->then([new GuessedEvent($id, 's')]);
+            
+        $this->assertEquals(Hangman::STATUS_SUCCESS, $this->repository->load($id)->getStatus());
     }
     
     public function testDecrementTriesLeft()
@@ -82,14 +80,11 @@ class HangmanCommandHandlerTest extends CommandHandlerScenarioTestCase
     
         $this->scenario
             ->withAggregateId($id)
-            ->given([
-                new StartedEvent($id, $word),
-                
-            ])
+            ->given([new StartedEvent($id, $word)])
             ->when(new GuessCommand($id, 'x'))
-            ->then([
-                new GuessedEvent($id, 'x')
-            ]);
+            ->then([new GuessedEvent($id, 'x')]);
+        
+        $this->assertEquals(10, $this->repository->load($id)->getTriesLeft());
     }
     
     public function testFailedStatus()
@@ -97,8 +92,6 @@ class HangmanCommandHandlerTest extends CommandHandlerScenarioTestCase
         $id = 1;
         
         $word = new Word('test');
-        
-        // The startCommand has to be ran first, because this will add Hangman instance to the repository
         
         $this->scenario
             ->withAggregateId($id)
@@ -117,9 +110,9 @@ class HangmanCommandHandlerTest extends CommandHandlerScenarioTestCase
                 new GuessedEvent($id, 'k'), // tries left:  1
             ])
             ->when(new GuessCommand($id, 'l')) // tries left: 0 => fail
-            ->then([
-                new UpdateStatusCommand($id, Hangman::STATUS_FAIL),
-                new GuessedEvent($id, 'l')
-            ]);
+            ->then([new GuessedEvent($id, 'l')]);
+            
+        $this->assertEquals(0, $this->repository->load($id)->getTriesLeft());
+        $this->assertEquals(Hangman::STATUS_FAIL, $this->repository->load($id)->getStatus());
     }
 }
