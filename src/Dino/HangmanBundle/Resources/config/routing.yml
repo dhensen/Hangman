@@ -1,0 +1,23 @@
+#dino_hangman_homepage:
+#    path:     /games
+#    defaults: { _controller: DinoHangmanBundle:Default:index }
+    
+_start_new_game:
+    path:     /games
+    defaults: { _controller: DinoHangmanBundle:Default:startNewGame }
+    methods:  [POST]
+    
+_view_games:
+    path:     /games
+    defaults: { _controller: DinoHangmanBundle:Default:viewGames }
+    methods:  [GET]
+    
+_game_status:
+    path:     /games/{id}
+    defaults: { _controller: DinoHangmanBundle:Default:gameStatus }
+    methods:  [GET]
+    
+_guess_character:
+    path:     /games/{id}
+    defaults: { _controller: DinoHangmanBundle:Default:guessCharacter }
+    methods:  [POST]

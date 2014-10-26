@@ -1,0 +1,4 @@
+dino_hangman:
+    resource: "@DinoHangmanBundle/Resources/config/routing.yml"
+    prefix:   /
+
