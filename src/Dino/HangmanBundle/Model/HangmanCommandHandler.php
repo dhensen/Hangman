@@ -33,6 +33,10 @@ class HangmanCommandHandler extends CommandHandler
         // load the hangman object from repository by gameId
         $hangman = $this->repository->load($command->gameId);
         
+        if (is_null($hangman)) {
+            return;
+        }
+        
         $hangman->guess($command->char);
         
         if (!is_null($this->controller)) {

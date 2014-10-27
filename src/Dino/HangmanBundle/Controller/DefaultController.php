@@ -74,7 +74,13 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $hangman = $em->getRepository('DinoHangmanBundle:Hangman')->find($id);
         
-        return new JsonResponse($hangman->toArray());
+        if (!is_null($hangman)) {
+            $data = $hangman->toArray();
+        } else {
+            $data = array('message' => sprintf('game(id=%d) does not exist', $id));
+        }
+        
+        return new JsonResponse($data);
     }
     
     /**
@@ -100,6 +106,12 @@ class DefaultController extends Controller
         $commandBus->subscribe($commandHandler);
         $commandBus->dispatch(new GuessCommand($id, $char));
         
-        return new JsonResponse($this->hangman->toArray());
+        if (!is_null($this->hangman)) {
+            $data = $this->hangman->toArray();
+        } else {
+            $data = array('message' => sprintf('game(id=%d) does not exist', $id));
+        }
+        
+        return new JsonResponse($data);
     }
 }
