@@ -18,7 +18,7 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "broadway/broadway": "dev-master"
+        "broadway/broadway": "dev-master#389e92862ff56bbece77a87baae65bee085bcb42"
         
     },
     "require-dev": {
