@@ -1,7 +1,7 @@
 <?php
 namespace Dino\HangmanBundle\Tests\Model;
 
-use Dino\HangmanBundle\Model\Word;
+use Dino\HangmanBundle\Entity\Word;
 class WordTest extends \PHPUnit_Framework_TestCase
 {
     /**

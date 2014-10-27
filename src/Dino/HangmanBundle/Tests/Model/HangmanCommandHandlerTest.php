@@ -8,11 +8,11 @@ use Broadway\EventHandling\EventBusInterface;
 use Dino\HangmanBundle\Model\HangmanRepository;
 use Dino\HangmanBundle\Model\HangmanCommandHandler;
 use Dino\HangmanBundle\Model\StartCommand;
-use Dino\HangmanBundle\Model\Word;
+use Dino\HangmanBundle\Entity\Word;
 use Dino\HangmanBundle\Model\StartedEvent;
 use Dino\HangmanBundle\Model\GuessCommand;
 use Dino\HangmanBundle\Model\GuessedEvent;
-use Dino\HangmanBundle\Model\Hangman;
+use Dino\HangmanBundle\Entity\Hangman;
 
 class HangmanCommandHandlerTest extends CommandHandlerScenarioTestCase
 {
@@ -42,7 +42,7 @@ class HangmanCommandHandlerTest extends CommandHandlerScenarioTestCase
     
     public function testGuessChar()
     {
-        $id = 1;
+        $id = 2;
         
         $word = new Word('test');
         
@@ -55,7 +55,7 @@ class HangmanCommandHandlerTest extends CommandHandlerScenarioTestCase
     
     public function testSuccesStatus()
     {
-        $id = 1;
+        $id = 3;
         
         $word = new Word('test');
         
@@ -74,7 +74,7 @@ class HangmanCommandHandlerTest extends CommandHandlerScenarioTestCase
     
     public function testDecrementTriesLeft()
     {
-        $id = 1;
+        $id = 4;
     
         $word = new Word('test');
     
@@ -89,7 +89,7 @@ class HangmanCommandHandlerTest extends CommandHandlerScenarioTestCase
     
     public function testFailedStatus()
     {
-        $id = 1;
+        $id = 5;
         
         $word = new Word('test');
         
