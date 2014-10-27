@@ -1,4 +1,4 @@
 services:
-#    dino_hangman.example:
-#        class: Dino\HangmanBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    dino_hangman.random_word:
+        class: Dino\HangmanBundle\Service\RandomWordSupplier
+        arguments: ["words.english"]

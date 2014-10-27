@@ -1,10 +1,30 @@
 <?php
-namespace Dino\HangmanBundle\Model;
+namespace Dino\HangmanBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="word")
+ */
 class Word
 {
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @ORM\Column(type="string", length=100)
+     * @var string
+     */
     private $value;
     
+    /**
+     * @ORM\Column(type="string", length=100)
+     * @var string
+     */
     private $masked_value;
     
     const MASK_CHARACTER = '.';
@@ -76,5 +96,51 @@ class Word
     {
         // return true if the mask character can not be found in the masked value
         return strpos($this->masked_value, self::MASK_CHARACTER) === false;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set value
+     *
+     * @param string $value
+     * @return Word
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Set masked_value
+     *
+     * @param string $maskedValue
+     * @return Word
+     */
+    public function setMaskedValue($maskedValue)
+    {
+        $this->masked_value = $maskedValue;
+
+        return $this;
     }
 }
